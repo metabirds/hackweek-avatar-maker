@@ -16,12 +16,12 @@ function dispatchExportAvatar() {
 export function ToolbarContainer({ onGLBUploaded, randomizeConfig }) {
   return (
     <Toolbar>
-      <span className="appName">Hackweek Avatar Maker</span>
+      <span className="appName">CYZY SPACE Avatar Maker</span>
       <MoreMenu
         items={
           <>
             <UploadButton onGLBUploaded={onGLBUploaded} />
-            <a href="https://github.com/mozilla/hackweek-avatar-maker" target="_blank">
+            <a href="https://github.com/metabirds/hackweek-avatar-maker" target="_blank">
               GitHub
             </a>
           </>
