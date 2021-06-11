@@ -21,9 +21,6 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig }) {
         items={
           <>
             <UploadButton onGLBUploaded={onGLBUploaded} />
-            <a href="https://github.com/metabirds/hackweek-avatar-maker" target="_blank">
-              GitHub
-            </a>
           </>
         }
       ></MoreMenu>
