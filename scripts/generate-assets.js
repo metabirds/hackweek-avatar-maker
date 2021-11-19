@@ -181,10 +181,16 @@ function descriptionForPart({ category, filename }) {
 
   const description = {};
   for (const prop of Object.keys(template)) {
-    const matches = filename.match(template[prop].regExp);
+    let matches = filename.match(template[prop].regExp);
     if (!matches) {
       throw new Error(`Cannot generate description for part. "${filename}" does not match "${template[prop].regExp}".`);
     }
+    if(matches[1]){
+      matches[1] = matches[1].replace(/type/i, "タイプ");
+
+    }
+    matches[0] = matches[0].replace(/skin/i, "カラー");
+    matches[0] = matches[0].replace(/type/i, "タイプ");
     description[prop] = matches.length > 1 ? matches[1] : matches[0];
   }
   return description;
@@ -295,6 +301,9 @@ function generateAssetsStructure(directory) {
   for (const [categoryName, configs] of Object.entries(customRandomizationWeights)) {
     for (const config of configs) {
       const category = orderedAssets[categoryName];
+      if (!category) {
+        continue;
+      }
       const weight = config.randomizationWeight.useLength ? category.parts.length : config.randomizationWeight.value;
       const parts = category.parts.filter(part => (
         part.value === config.value || 
@@ -315,5 +324,7 @@ const result = `export default ${JSON.stringify(assets, null, 2)};`;
 fs.writeFileSync("./src/assets.js", result);
 
 function capitalize(str) {
+  if(str == "type") { return "タイプ" };
+  if(str == "skin") { return "カラー" };
   return str[0].toUpperCase() + str.substring(1);
 }

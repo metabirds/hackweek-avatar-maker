@@ -176,6 +176,10 @@ label {
   outline: none;
 }
 
+.avatarPartButton[aria-label=None] {
+  display: none;
+}
+
 .avatarPartButton:focus:after,
 .avatarPartButton:hover:after {
   border: var(--outer-border-size) solid;
@@ -308,5 +312,49 @@ button.primary:focus {
   .menu {
     bottom: 85px;
     flex-direction: column-reverse;
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 8px 8px;
+  }
+  .toolbar button {
+    padding: 8px 8px;
+    border-radius: 8px;
+  }
+  .appName {
+    flex-basis: auto;
+    width: 100%;
+    justify-content: center;
+  }
+  .main {
+    flex-wrap: wrap;
+  }
+  .selector {
+    width: 100%;
+    flex-basis: auto;
+  }
+  .selector .simpleBar {
+    max-height: 50vh;
+    padding: 16px;
+  }
+  #sceneContainer {
+    position: relative;
+    width: 100%;
+    flex-basis: auto;
+  }
+  #sceneContainer canvas {
+    width: 100%;
+    height: 100%;
+  }
+  .waveContainer {
+    height: 2000px;
+    top: 55px;
+    left: 100%;
+    transform-origin: top right;
+    transform: translate(0,0) rotate(90deg);
   }
 }

@@ -17,17 +17,17 @@ export function ToolbarContainer({ onGLBUploaded, randomizeConfig }) {
   return (
     <Toolbar>
       <span className="appName">CYZY SPACE Avatar Maker</span>
-      <MoreMenu
+      {/* <MoreMenu
         items={
           <>
             <UploadButton onGLBUploaded={onGLBUploaded} />
           </>
         }
-      ></MoreMenu>
-      <button onClick={randomizeConfig}>Randomize avatar</button>
-      <button onClick={dispatchResetView}>Reset camera view</button>
+      ></MoreMenu> */}
+      <button onClick={randomizeConfig}>ランダム</button>
+      <button onClick={dispatchResetView}>カメラをリセット</button>
       <button onClick={dispatchExportAvatar} className="primary">
-        Export avatar
+        かんせい！
       </button>
     </Toolbar>
   );

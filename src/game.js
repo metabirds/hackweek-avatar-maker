@@ -21,6 +21,9 @@ import idleEyes from "./idle-eyes";
 import assets from "./assets";
 import debugConfig from "./debug-config";
 
+const apiUrl = process.env.REACT_APP_ASSET_SERVER_API_URL;
+console.log('REACT_APP_ASSET_SERVER_API_URL', apiUrl);
+
 // Used to test mesh combination
 window.combineCurrentAvatar = async function () {
   return await combine({ avatar: state.avatarGroup });
@@ -117,7 +120,7 @@ function init() {
   scene.add(skydome);
 
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 0.6, 1);
+  camera.position.set(2.5, 2.5, 2.5);
   state.camera = camera;
 
   const directionalLight = new THREE.DirectionalLight(0xffffff, 4.0);
@@ -360,24 +363,45 @@ function tick(time) {
 
       exportAvatar(state.avatarGroup).then(({ glb }) => {
         const blob = new Blob([glb], { type: "application/octet-stream" });
-        const url = URL.createObjectURL(blob);
 
-        if (!debugConfig.disableDownload) {
-          const el = document.createElement("a");
-          el.style.display = "none";
-          el.href = url;
-          el.download = "custom_avatar.glb";
-          el.click();
-          el.remove();
+        if (apiUrl) {
+          (async () => {
+            const file = new File([blob], 'custom_avatar.glb', {
+              type: blob.type,
+            });
+
+            const formData = new FormData();
+            formData.append('data', file);
+
+            const res = await fetch(apiUrl, {
+              method: 'POST',
+              body: formData,
+            });
+            const result = await res.json();
+            // window.alert(`${apiUrl}/${result.key}`);
+            window.parent.postMessage(`${apiUrl}/${result.key}`, "*");
+          })();
         }
+        else {
+          const url = URL.createObjectURL(blob);
 
-        if (debugConfig.debugExports) {
-          loadGLTF(url).then((gltf) => {
-            initializeGltf("testExportGroup", gltf);
-            state.testExportGroup.clear();
-            state.testExportGroup.add(gltf.scene);
-            gltf.scene.position.set(0.5, 0, 0);
-          });
+          if (!debugConfig.disableDownload) {
+            const el = document.createElement("a");
+            el.style.display = "none";
+            el.href = url;
+            el.download = "custom_avatar.glb";
+            el.click();
+            el.remove();
+          }
+  
+          if (debugConfig.debugExports) {
+            loadGLTF(url).then((gltf) => {
+              initializeGltf("testExportGroup", gltf);
+              state.testExportGroup.clear();
+              state.testExportGroup.add(gltf.scene);
+              gltf.scene.position.set(0.5, 0, 0);
+            });
+          }
         }
       });
     }

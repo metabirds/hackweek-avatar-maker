@@ -88,7 +88,7 @@ function parseSubCategories({ category, currentSelection }) {
 export function SubCategory({ name, parts }) {
   return (
     <div key={name}>
-      <h2>{name}</h2>
+      <h2>{name == "Type" ? "かたちをえらぶ" : "いろをえらぶ"}</h2>
       {parts}
     </div>
   );
